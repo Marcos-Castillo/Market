@@ -25,8 +25,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           element={
             <>
               <Header />
-              <Products />
+                <div className="container d-flex col mt-2">
+                  
+                  <Products className="bg-secondary col-10"/>
 
+                </div>
               <Footer />
             </>
           }
@@ -36,6 +39,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           element={
             <>
               <Header />
+              
               <Product />
 
               <Footer />

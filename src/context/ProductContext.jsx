@@ -3,7 +3,6 @@ import { fetchProducts } from '../services/productService';
 
 export const ProductContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   

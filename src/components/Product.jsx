@@ -13,7 +13,11 @@ const Product = () => {
   }, [idProduct]);
 
   if (!product) {
-    return <div className="loader mx-auto mt-5">Loading...</div>
+    return (
+    <div className="my-5">
+    <div className="loader mx-auto my-5">
+    </div>
+    </div>)
   }
 
   return (
@@ -28,14 +32,17 @@ const Product = () => {
             </div>
           ))}
         </div>
-        <button className="carousel-control-prev bg-secondary" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        {product.images.length > 1?
+        <><button className="carousel-control-prev bg-secondary" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
           <span className="carousel-control-prev-icon" aria-hidden="true"></span>
           <span className="visually-hidden">Previous</span>
         </button>
         <button className="carousel-control-next bg-secondary" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
           <span className="carousel-control-next-icon" aria-hidden="true"></span>
           <span className="visually-hidden">Next</span>
-        </button>
+        </button></>
+        :'' }
+        
       </div>
       <div className="container my-4">
         <div className="d-flex flex-row-reverse">

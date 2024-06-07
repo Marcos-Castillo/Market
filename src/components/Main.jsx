@@ -1,4 +1,24 @@
+import { useEffect, useState } from "react";
+import { fetchProductsArray } from "../services/productService";
+import { useNavigate } from "react-router-dom";
+
 function Main() {
+  const [topProducts, setTopProducts] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const getTopProducts = async () => {
+      try {
+        const products = await fetchProductsArray();
+        const sortedProducts = products.sort((a, b) => b.rating.rate - a.rating.rate);
+        setTopProducts(sortedProducts.slice(0, 3));
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    getTopProducts();
+  }, []);
+
   return (
     <main>
       <section className="py-5 text-center container">
@@ -27,76 +47,36 @@ function Main() {
       </section>
 
       <div className="container">
-      <div className="carousel-inner ">
-                    <div className="carousel-item active">
-                        <div className="container">
-                        <div id="ofertas" className="row text-center">
-
-                        <div className="col-lg-4 mb-4">
-                        <a className="nav-link" href="/product">
-                                <div className="card">
-                                <div className="imgOverflow">
-                                    <img
-                                    src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
-                                    className="imgOverflow m-2"
-                                    alt="alternativo"
-                                    />
-                                </div>
-                                <div className="card-body">
-                                    <h5 className="card-title">titulo</h5>
-                                    <p className="card-text text-truncate">
-                                    descripcion de texto
-                                    </p>
-                                </div>
-                                </div>
-                            </a>
-                            </div>
-                            <div className="col-lg-4 mb-4">
-                            <a className="nav-link" href="/product">
-                                <div className="card">
-                                <div className="imgOverflow">
-                                    <img
-                                    src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
-                                    className="imgOverflow m-2"
-                                    alt="alternativo"
-                                    />
-                                </div>
-                                <div className="card-body">
-                                    <h5 className="card-title">titulo</h5>
-                                    <p className="card-text text-truncate">
-                                    descripcion de texto
-                                    </p>
-                                </div>
-                                </div>
-                            </a>
-                            </div>
-                            <div className="col-lg-4 mb-4">
-                            <a className="nav-link" href="/product">
-                                <div className="card">
-                                <div className="imgOverflow">
-                                    <img
-                                    src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
-                                    className="imgOverflow m-2"
-                                    alt="alternativo"
-                                    />
-                                </div>
-                                <div className="card-body">
-                                    <h5 className="card-title">titulo</h5>
-                                    <p className="card-text text-truncate">
-                                    descripcion de texto
-                                    </p>
-                                </div>
-                                </div>
-                            </a>
-                            </div>
-
-
-
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <div className="container">
+              <div id="ofertas" className="row text-center">
+                {topProducts.map((product) => (
+                  <div key={product.id} className="col-lg-4 mb-4">
+                    <div className="nav-link" onClick={() => navigate(`/product`)}>
+                      <div className="card">
+                        <div className="imgOverflow">
+                          <img
+                            src={product.image}
+                            className="imgOverflow m-2"
+                            alt={product.title}
+                          />
                         </div>
+                        <div className="card-body">
+                          <h5 className="card-title">{product.title}</h5>
+                          <p className="card-text text-truncate">
+                            {product.description}
+                          </p>
+                          <p className="card-text">Rating: {product.rating.rate}</p>
                         </div>
+                      </div>
                     </div>
-                    </div>
-                    
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   );
